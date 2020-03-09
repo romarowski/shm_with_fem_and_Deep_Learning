@@ -12,7 +12,7 @@ def stiffnes(n_elem):
     fixed_dofs = [1, 0, -2, -1]
     E  =  1
     Iz =  1
-    L  =  1
+    L  =  1 / n_elem
 
     k = np.array([[12 * E * Iz / L ** 3, 6 * E * Iz / L ** 2,\
                   -12 * E * Iz / L ** 3, 6 * E * Iz / L ** 2],
@@ -42,6 +42,7 @@ def stiffnes(n_elem):
 
 
 def nodal_load(load, n_elem):
+    #Function that calculates the nodal loads.
     import numpy as np
     
     q = load
@@ -66,4 +67,45 @@ def nodal_load(load, n_elem):
 
 
     return f 
+
+
+def stress_recovery(displ, n_elem):
+
+    import numpy as np
+
+    x = np.linspace(0, 1, n_elem)
+
+    L = 1 / n_elem
+
+    B_0 = np.array([-6 / L ** 2, - 4 / L, 6 / L ** 2, - 2 / L]) #stress-deformation vector
+    B_1 = B_0 + np.array([12 / L ** 3, 6 / L ** 2, - 12 / L ** 3, 6 / L ** 2])
+
+    stress_elem = np.zeros([n_elem, 2])
+
+
+    displ = np.concatenate(([0, 0], displ, [0, 0]))
+
+    for elem in range(n_elem):
+        stress_elem[elem, 0] = - B_0.transpose() @ displ[2*elem:2*elem+4]
+        stress_elem[elem, 1] = - B_1.transpose() @ displ[2*elem:2*elem+4]
+
+
+
+    return stress_elem
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
