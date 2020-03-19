@@ -8,7 +8,7 @@ def stiffnes(n_elem):
 
     #np.set_printoptions(threshold=sys.maxsize)
     #import matplotlib.plot as plt
-    fixed_dofs = [1, 0, -2, -1]
+    fixed_dofs = [1, 0]
     E  =  1
     Iz =  1
     L  =  1 / n_elem
@@ -74,7 +74,7 @@ def random_load_generator(n_elem):
 
     n_nod = n_elem + 1
     n_dofs = n_nod * 2
-    free_dofs = n_dofs - 4
+    free_dofs = n_dofs - 4 #4 belonging to a clamped-clamped beam
     f = np.zeros(free_dofs)
     for i in range(0, 40, 2):
         if random.choice([True, False]):
@@ -169,14 +169,16 @@ def mass_matrix_HRZ(n_elem):
     #np.set_printoptions(threshold=sys.maxsize)
     #import matplotlib.plot as plt
 
-    fixed_dofs = [1, 0, -2, -1] #assuming clamped-clamped
+    fixed_dofs = [1, 0] #assuming clamped-clamped
     rho = 1
     A   = 1
     L   = 1
     Le = L / n_elem
-    m  = rho * A * L
+    mass  = rho * A * Le
     #local stiffness matrix from 2nd order term
-    m = np.diag(m * [.5, L ** 2 / 78, .5, L ** 2 / 78]) 
+    m = np.diag([mass *.5, mass * Le ** 2 / 78, mass * .5, mass * Le ** 2 / 78]) 
+    # m = np.array([[156, 22, 54, -13], [22, 4, 13, -3], [54, 13, 156, -22],
+    #              [-13, -3, -22, 4]])
     dof_node = 2
     dof_elem = 4
     #n_elem   = 21
@@ -185,11 +187,11 @@ def mass_matrix_HRZ(n_elem):
     m_struct = np.zeros([tot_dofs,tot_dofs])
 
     for i in range(n_elem):
-        m_struct[2*i:2*i+4, 2*i:2*i+4] += k
+        m_struct[2*i:2*i+4, 2*i:2*i+4] += m 
 
     for dof in fixed_dofs:
         for i in [0, 1]: 
-            m_struct = np.delete(k_struct, dof, axis = i)
+            m_struct = np.delete(m_struct, dof, axis = i)
 
 
     return  m_struct
