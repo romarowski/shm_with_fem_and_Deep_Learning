@@ -1,13 +1,13 @@
 def simulation(n_elem):    
     
-    from Euler_Bernoulli import stress_recovery, random_load_generator, stiffnes 
+    from Euler_Bernoulli import stress_recovery, random_load_generator, stiffnes, stiff_2nd_order 
 
     from scipy import linalg
 
     import numpy as np
 
 
-    K = stiffnes(n_elem)
+    K = stiffnes(n_elem) # + stiff_2nd_order(21)
 
     loc_sg = 14 #strain gauge located at node 14
 
@@ -22,4 +22,4 @@ def simulation(n_elem):
         data[i, 0] = sg
         data[i, 1] = M
 
-    return data
+    return data, K

@@ -117,16 +117,3 @@ def stress_recovery(displ, n_elem):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-

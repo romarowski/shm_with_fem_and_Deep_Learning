@@ -6,7 +6,7 @@ from sklearn.metrics import r2_score
 
 from data_gen import simulation
 
-data = simulation(21)
+data, K = simulation(21)
 
 xtrain = data[:, 0]
 xtrain = xtrain[:, np.newaxis]
