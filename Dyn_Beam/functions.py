@@ -6,9 +6,7 @@ def stiffnes(n_elem):
     import sys
 
 
-    #np.set_printoptions(threshold=sys.maxsize)
-    #import matplotlib.plot as plt
-    fixed_dofs = [1, 0]
+    fixed_dofs = [0, 1, -1, -2]
     E  =  1
     Iz =  1
     L  =  1 / n_elem
@@ -32,9 +30,11 @@ def stiffnes(n_elem):
     for i in range(n_elem):
         k_struct[2*i:2*i+4, 2*i:2*i+4] += k
 
-    for dof in fixed_dofs:
-        for i in [0, 1]: 
-            k_struct = np.delete(k_struct, dof, axis = i)
+   # for dof in fixed_dofs:
+   #    for i in [0, 1]: 
+   #        k_struct = np.delete(k_struct, dof, axis = i)
+   
+    k_struct = k_struct[2:-2, 2:-2]#only works for clamped-clamped
 
 
     return  k_struct
@@ -61,9 +61,9 @@ def nodal_load(load, n_elem):
     for i in range(n_elem):
         f[2*i:2*i+4] += r_elem
 
-    for dof in fixed_dofs:
-        f = np.delete(f, dof)
-
+   # for dof in fixed_dofs:
+   #     f = np.delete(f, dof)
+    f =  f[2:-2]
 
     return f 
 
@@ -150,10 +150,10 @@ def stiff_2nd_order(n_elem):
     for i in range(n_elem):
         k_struct[2*i:2*i+4, 2*i:2*i+4] += k
 
-    for dof in fixed_dofs:
-        for i in [0, 1]: 
-            k_struct = np.delete(k_struct, dof, axis = i)
-
+  #  for dof in fixed_dofs:
+  #      for i in [0, 1]: 
+  #          k_struct = np.delete(k_struct, dof, axis = i)
+    k_struct = k_struct[2:-2, 2:-2]
 
     return  k_struct
 
@@ -169,7 +169,7 @@ def mass_matrix_HRZ(n_elem):
     #np.set_printoptions(threshold=sys.maxsize)
     #import matplotlib.plot as plt
 
-    fixed_dofs = [1, 0] #assuming clamped-clamped
+    fixed_dofs = [1, 0, -1, -2] #assuming clamped-clamped
     rho = 1
     A   = 1
     L   = 1
@@ -189,10 +189,11 @@ def mass_matrix_HRZ(n_elem):
     for i in range(n_elem):
         m_struct[2*i:2*i+4, 2*i:2*i+4] += m 
 
-    for dof in fixed_dofs:
-        for i in [0, 1]: 
-            m_struct = np.delete(m_struct, dof, axis = i)
-
+  #  for dof in fixed_dofs:
+  #      for i in [0, 1]: 
+  #          m_struct = np.delete(m_struct, dof, axis = i)
+   
+    m_struct = m_struct[2:-2, 2:-2]#only works for clamped clamped
 
     return  m_struct
 
