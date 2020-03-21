@@ -175,10 +175,8 @@ def mass_matrix_HRZ(n_elem):
     L   = 1
     Le = L / n_elem
     mass  = rho * A * Le
-    #local stiffness matrix from 2nd order term
+    #local HRZ matrix
     m = np.diag([mass *.5, mass * Le ** 2 / 78, mass * .5, mass * Le ** 2 / 78]) 
-    # m = np.array([[156, 22, 54, -13], [22, 4, 13, -3], [54, 13, 156, -22],
-    #              [-13, -3, -22, 4]])
     dof_node = 2
     dof_elem = 4
     #n_elem   = 21
@@ -197,3 +195,41 @@ def mass_matrix_HRZ(n_elem):
 
     return  m_struct
 
+def mass_matrix(n_elem):
+
+    #code for setting up mass a consistent mass matrix  
+    import numpy as np
+    import sys
+
+
+    #np.set_printoptions(threshold=sys.maxsize)
+    #import matplotlib.plot as plt
+
+    fixed_dofs = [1, 0, -1, -2] #assuming clamped-clamped
+    rho = 1
+    A   = 1
+    L   = 1
+    Le = L / n_elem
+    mass  = rho * A * Le
+    #local mass matrix
+    m = mass / 420 * np.array([[156, 22 * Le,54, -13 * Le], 
+                               [22, 4 * Le ** 2, 13 * Le, -3 * Le ** 2], 
+                               [54, 13  * Le, 156, -22 * Le],
+                               [-13 * Le, -3 * Le ** 2, -22 * Le, 4 * Le ** 2]])
+    dof_node = 2
+    dof_elem = 4
+    #n_elem   = 21
+    tot_dofs = n_elem * dof_node + 2
+
+    m_struct = np.zeros([tot_dofs,tot_dofs])
+
+    for i in range(n_elem):
+        m_struct[2*i:2*i+4, 2*i:2*i+4] += m 
+
+  #  for dof in fixed_dofs:
+  #      for i in [0, 1]: 
+  #          m_struct = np.delete(m_struct, dof, axis = i)
+   
+    m_struct = m_struct[2:-2, 2:-2]#only works for clamped clamped
+
+    return  m_struct
