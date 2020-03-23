@@ -1,5 +1,5 @@
 # Thesis
 
 Topics:
-*PDEs
-*Machine Learning
+* PDEs
+* Machine Learning
