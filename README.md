@@ -1,1 +1,5 @@
-# thesis
+# Thesis
+
+Topics:
+*PDEs
+*Machine Learning
