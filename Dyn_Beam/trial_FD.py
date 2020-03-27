@@ -20,13 +20,22 @@ timestep = .01
 
 displ, F = advance(t_sim, timestep, n_elem, M, C, K)
 
+
+stresses = stress_recovery(displ, n_elem)
 #ipdb.set_trace()
+
+max_stress_each_timestep = np.amax(stresses, axis = 0)
+
 
 #plotting
 L = 1 
 Le = L / n_elem
 
 xnod = np.linspace(0, L, n_elem + 1)
+
+
+
+#plotting
 
 for i in np.arange(0, np.size(displ, 1), 2):
     plt.axes(xlim = (0, 1), ylim = (-2., 2))

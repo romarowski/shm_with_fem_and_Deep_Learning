@@ -87,6 +87,7 @@ def random_load_generator(n_elem):
 def stress_recovery(displ, n_elem):
 
     import numpy as np
+    import ipdb
 
     x = np.linspace(0, 1, n_elem)
 
@@ -100,15 +101,18 @@ def stress_recovery(displ, n_elem):
                                 6 / L ** 2 - 12 * x / L ** 3, \
                               - 2 / L      +  6 * x / L ** 2])
     
-    stress_elem = np.zeros([n_elem])
+    timesteps = np.arange(0, np.size(displ, 1))
+    stress_elem = np.zeros([n_elem, np.size(timesteps)])
 
+    #ipdb.set_trace()
+    timesteps = np.arange(0, np.size(displ, 1))
+    for time in timesteps:
+        displ_t = np.concatenate(([0, 0], displ[:, time], [0, 0]))
+        for elem in range(n_elem):
+           # stress_elem[elem, 0] = - B_0.transpose() @ displ[2*elem:2*elem+4]
+           # stress_elem[elem, 1] = - B_1.transpose() @ displ[2*elem:2*elem+4]
 
-    displ = np.concatenate(([0, 0], displ, [0, 0]))
-
-    for elem in range(n_elem):
-       # stress_elem[elem, 0] = - B_0.transpose() @ displ[2*elem:2*elem+4]
-       # stress_elem[elem, 1] = - B_1.transpose() @ displ[2*elem:2*elem+4]
-       stress_elem[elem] = - B_x(L / 2) @ displ[2*elem:2*elem+4]
+           stress_elem[elem, time] = - B_x(L / 2) @ displ_t[2*elem:2*elem+4]
 
 
     return stress_elem
