@@ -1,5 +1,3 @@
-
- 
 def advance(t_sim, timestep, n_elem,  M, C, K):
     
     import numpy as np 
@@ -63,7 +61,7 @@ def random_loads_vector(n_elem, times):
     import numpy as np
     import random
 
-    #senoidal loads for clamped clamped beam
+    #random  loads for clamped clamped beam
     fixed_dofs = 4
     
     dof_per_node = 2
@@ -79,6 +77,6 @@ def random_loads_vector(n_elem, times):
     for time in range(nbr_timesteps): 
         for i in range (0, dofs, 2):
             if random.choice([True, False]):
-                loads[i, time] =  random.random()
+                loads[i, time] =  np.sin(random.random() * time)
 
     return loads
