@@ -1,5 +1,6 @@
+
 from functions import *
-from finite_difference import *
+from gen_alpha_as_paper import *
 import numpy as np
 import matplotlib.pyplot as plt
 import ipdb
@@ -27,7 +28,7 @@ data = np.zeros((int(np.ceil(t_sim/timestep) + 1), 2, n_sim))
 #    displ, F = advance(t_sim, timestep, n_elem, M, C, K)
 #    stresses = stress_recovery(displ, n_elem)
 #    #ipdb.set_trace()
-#    max_stress_each_timestep = np.amax(stresses, axis = 0)
+#    max_stress_each_timestep = np.amax(stresses, axis = 0.)
 #    displ_at_sg = displ[14, :]
 #    data[:, 0, i] = displ_at_sg
 #    data[:, 1, i] = max_stress_each_timestep
@@ -41,13 +42,13 @@ Le = L / n_elem
 xnod = np.linspace(0, L, n_elem + 1)
 
 
-displ_FD, F = advance(t_sim, timestep, n_elem, M, C, K)
+displ, F = advance(t_sim, timestep, n_elem, M, C, K)
 
 #plotting
 
-for i in np.arange(0, np.size(displ_FD, 1), 2):
-    plt.axes(xlim = (0, 1), ylim = (-2., 2))
-    plt.plot(xnod, np.concatenate(([0], displ_FD[0::2, i] * 1e3, [0])))
+for i in np.arange(0, np.size(displ, 1), 2):
+    plt.axes(xlim = (0, 1), ylim = (-10., 10))
+    plt.plot(xnod, np.concatenate(([0], displ[0::2, i] * 100, [0])))
     plt.draw()
     plt.pause(.0001)
     plt.clf()
