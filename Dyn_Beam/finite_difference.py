@@ -13,11 +13,13 @@ def advance(t_sim, timestep, n_elem,  M, C, K):
     times = np.arange(0, t_sim + h, h)
     nbr_timesteps = np.size(times)
 
-    F = random_loads_vector(n_elem, times)
+    F = loads_vector(n_elem, times)
     
     displ = np.zeros([dofs, nbr_timesteps])
     vel   = np.zeros([dofs, nbr_timesteps])
     acel  = np.zeros([dofs, nbr_timesteps])
+    
+    #ipdb.set_trace()
 
     lhs = M / h ** 2 + C / h
     un_term   = lhs - K 
@@ -54,6 +56,7 @@ def loads_vector(n_elem, times):
 
     
     loads = np.array([np.sin(times), ] * dofs)
+    #loads[:, 500::] = 0
 
     return loads
 
