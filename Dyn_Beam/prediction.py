@@ -5,10 +5,10 @@ from sklearn.metrics import r2_score
 
 import numpy as np
 
-data = np.loadtxt('Simulation2.txt')
+data = np.loadtxt('Simulation4_acel.txt')
 
-n_sim = 5000
-timesteps = 501
+n_sim = 1
+timesteps = np.size(data, 0)
 #window = int(timesteps / 9) # 9 refers to 9 measurements of M for each simulation i.e. after 70 timesteps
 #nbr_tests = int(np.size(data, 0) / window)
 

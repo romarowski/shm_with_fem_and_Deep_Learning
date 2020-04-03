@@ -105,7 +105,7 @@ def stress_recovery(displ, n_elem):
     stress_elem = np.zeros([n_elem, np.size(timesteps)])
 
     #ipdb.set_trace()
-    timesteps = np.arange(0, np.size(displ, 1))
+    #timesteps = np.arange(0, np.size(displ, 1))
     for time in timesteps:
         displ_t = np.concatenate(([0, 0], displ[:, time], [0, 0]))
         for elem in range(n_elem):

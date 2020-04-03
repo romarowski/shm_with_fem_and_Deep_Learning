@@ -66,7 +66,7 @@ def advance(t_sim, timestep, n_elem,  M, C, K):
 
         v[:, i+1] = v[:, i] + h * ((1 - gamma) * a[:, i] + gamma * a[:, i+1])
 
-    return d, F
+    return d, v, a
 
 
 def avg(x_old, x_new, alpha):
