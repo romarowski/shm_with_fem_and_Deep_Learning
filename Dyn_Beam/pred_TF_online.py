@@ -72,17 +72,26 @@ train_univariate = train_univariate.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZ
 val_univariate = tf.data.Dataset.from_tensor_slices((x_val_uni, y_val_uni))
 val_univariate = val_univariate.batch(BATCH_SIZE).repeat()
 
-simple_lstm_model = tf.keras.models.Sequential([
-    tf.keras.layers.LSTM(8, input_shape=x_train_uni.shape[-2:]),
-    tf.keras.layers.Dense(1)
-])
+model = tf.keras.models.Sequential()
 
-simple_lstm_model.compile(optimizer='adam', loss='mae')
+model.add(tf.keras.layers.GRU(32, 
+                     dropout=0.1,
+                     recurrent_dropout=0.5,
+                     return_sequences=True,
+                     input_shape=x_train_uni.shape[-2:]))
+model.add(tf.keras.layers.GRU(64,
+                     activation='relu',
+                     dropout=0.1,
+                     recurrent_dropout=0.5))
+model.add(tf.keras.layers.Dense(1))
 
-EVALUATION_INTERVAL = 1000
-EPOCHS = 10
 
-simple_lstm_model.fit(train_univariate, epochs=EPOCHS,
+model.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
+
+EVALUATION_INTERVAL = 500
+EPOCHS = 40
+
+model.fit(train_univariate, epochs=EPOCHS,
                       steps_per_epoch=EVALUATION_INTERVAL,
                      validation_data=val_univariate, validation_steps=50)
 
@@ -134,5 +143,5 @@ simple_lstm_model.fit(train_univariate, epochs=EPOCHS,
 #
 #single_step_model.save('saved_model/my_model')
 
-plot_train_history(simple_lstm_model,
+plot_train_history(model,
                    'Single Step Training and validation loss')
