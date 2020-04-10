@@ -51,7 +51,7 @@ dataset -= mean
 std = dataset[:TRAIN_SPLIT].std(axis=0)
 dataset /= std
 
-univariate_past_history = 50
+univariate_past_history = 1
 univariate_future_target = 0
 
 x_train_uni, y_train_uni = univariate_data(dataset, 0, TRAIN_SPLIT,
