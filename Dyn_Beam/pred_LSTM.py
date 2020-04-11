@@ -56,13 +56,13 @@ model.add(tf.keras.layers.LSTM(32,
 model.add(tf.keras.layers.Dense(1))
 
 
-rms = tf.keras.optimizers.RMSprop(learning_rate=0.1)
-model.compile(loss='mean_squared_error', optimizer=rms)
+#rms = tf.keras.optimizers.RMSprop(learning_rate=0.1)
+#model.compile(loss='mean_squared_error', optimizer=rms)
 
-#model.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
+model.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
 
 EVALUATION_INTERVAL = 500
-EPOCHS = 40
+EPOCHS = 10
 
 model_history = model.fit(train_univariate, epochs=EPOCHS,
                           steps_per_epoch=EVALUATION_INTERVAL,
