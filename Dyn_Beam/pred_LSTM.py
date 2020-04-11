@@ -1,5 +1,5 @@
 
-
+from keras import optimizers
 from functions_for_Keras import *
 from keras.models import Sequential
 from keras import layers
@@ -56,13 +56,16 @@ model.add(tf.keras.layers.LSTM(32,
 model.add(tf.keras.layers.Dense(1))
 
 
-model.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
+rms = tf.keras.optimizers.RMSprop(learning_rate=0.1)
+model.compile(loss='mean_squared_error', optimizer=rms)
+
+#model.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
 
 EVALUATION_INTERVAL = 500
 EPOCHS = 40
 
-model.fit(train_univariate, epochs=EPOCHS,
-                      steps_per_epoch=EVALUATION_INTERVAL,
-                      validation_data=val_univariate, validation_steps=50)
-plot_train_history(single_step_history,
+model_history = model.fit(train_univariate, epochs=EPOCHS,
+                          steps_per_epoch=EVALUATION_INTERVAL,
+                          validation_data=val_univariate, validation_steps=50)
+plot_train_history(model_history,
                    'Single Step Training and validation loss')
