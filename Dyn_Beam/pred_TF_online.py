@@ -94,7 +94,7 @@ EPOCHS = 40
 model.fit(train_univariate, epochs=EPOCHS,
                       steps_per_epoch=EVALUATION_INTERVAL,
                      validation_data=val_univariate, validation_steps=50,
-                     shuflle=False)
+                     shuffle=False)
 
 #past_history = 50
 #future_target = 0 
