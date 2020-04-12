@@ -64,6 +64,8 @@ EPOCHS = 10
 
 model_history = model.fit(train_univariate, epochs=EPOCHS,
                           steps_per_epoch=EVALUATION_INTERVAL,
-                          validation_data=val_univariate, shuffle=False)
+                          validation_data=val_univariate, 
+                          validation_steps = 50,
+                          shuffle=False)
 plot_train_history(model_history,
                    'Single Step Training and validation loss')
