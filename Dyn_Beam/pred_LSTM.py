@@ -37,7 +37,7 @@ x_val_uni, y_val_uni = univariate_data(dataset, TRAIN_SPLIT, None,
 
 tf.random.set_seed(13)
 
-BATCH_SIZE = 287950 
+BATCH_SIZE = 256 
 BUFFER_SIZE = 9600
 
 train_univariate = tf.data.Dataset.from_tensor_slices((x_train_uni, y_train_uni))
