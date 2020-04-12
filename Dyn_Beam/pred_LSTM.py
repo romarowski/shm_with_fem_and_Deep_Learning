@@ -1,4 +1,3 @@
-
 from keras import optimizers
 from functions_for_Keras import *
 from keras.models import Sequential
@@ -12,7 +11,6 @@ import os
 
 
 dataset = np.loadtxt('Simulation3.txt')
-
 
 
 # 1st normalize the data
@@ -39,14 +37,16 @@ x_val_uni, y_val_uni = univariate_data(dataset, TRAIN_SPLIT, None,
 
 tf.random.set_seed(13)
 
-BATCH_SIZE = 256 
+BATCH_SIZE = 287950 
 BUFFER_SIZE = 9600
 
 train_univariate = tf.data.Dataset.from_tensor_slices((x_train_uni, y_train_uni))
-train_univariate = train_univariate.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE).repeat()
+train_univariate = train_univariate.cache().shuffle(BATCH_SIZE).batch(BATCH_SIZE).repeat()
 
 val_univariate = tf.data.Dataset.from_tensor_slices((x_val_uni, y_val_uni))
 val_univariate = val_univariate.batch(BATCH_SIZE).repeat()
+
+#ipdb.set_trace()
 
 model = tf.keras.models.Sequential()
 
@@ -56,16 +56,14 @@ model.add(tf.keras.layers.LSTM(32,
 model.add(tf.keras.layers.Dense(1))
 
 
-#rms = tf.keras.optimizers.RMSprop(learning_rate=0.1)
-#model.compile(loss='mean_squared_error', optimizer=rms)
 
 model.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
 
-EVALUATION_INTERVAL = 500
+EVALUATION_INTERVAL = TRAIN_SPLIT
 EPOCHS = 10
 
 model_history = model.fit(train_univariate, epochs=EPOCHS,
                           steps_per_epoch=EVALUATION_INTERVAL,
-                          validation_data=val_univariate, validation_steps=50)
+                          validation_data=val_univariate, shuffle=False)
 plot_train_history(model_history,
                    'Single Step Training and validation loss')
