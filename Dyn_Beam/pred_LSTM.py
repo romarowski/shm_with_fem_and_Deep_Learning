@@ -41,7 +41,7 @@ BATCH_SIZE = 287950
 BUFFER_SIZE = 9600
 
 train_univariate = tf.data.Dataset.from_tensor_slices((x_train_uni, y_train_uni))
-train_univariate = train_univariate.cache().shuffle(BATCH_SIZE).batch(BATCH_SIZE).repeat()
+train_univariate = train_univariate.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE).repeat()
 
 val_univariate = tf.data.Dataset.from_tensor_slices((x_val_uni, y_val_uni))
 val_univariate = val_univariate.batch(BATCH_SIZE).repeat()
