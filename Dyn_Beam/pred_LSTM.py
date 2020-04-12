@@ -2,7 +2,7 @@ from keras import optimizers
 from functions_for_Keras import *
 from keras.models import Sequential
 from keras import layers
-from keras.optimizers import RMSprop
+from keras.optimizers import RMSprop, Adam
 from matplotlib import pyplot as plt
 import tensorflow as tf
 import numpy as np
@@ -18,6 +18,7 @@ dataset = np.loadtxt('Simulation3.txt')
 nbr_tsteps = np.size(dataset, 0)
 
 TRAIN_SPLIT = int(.8 * nbr_tsteps)
+TEST_SPLIT = int(nbr_tsteps - TRAIN_SPLIT)
 #nbr_val   = int(.9 * nbr_tsteps)
 
 mean = dataset[:TRAIN_SPLIT].mean(axis=0)
@@ -37,7 +38,7 @@ x_val_uni, y_val_uni = univariate_data(dataset, TRAIN_SPLIT, None,
 
 tf.random.set_seed(13)
 
-BATCH_SIZE = 256 
+BATCH_SIZE = TRAIN_SPLIT
 BUFFER_SIZE = 9600
 
 train_univariate = tf.data.Dataset.from_tensor_slices((x_train_uni, y_train_uni))
@@ -50,22 +51,22 @@ val_univariate = val_univariate.batch(BATCH_SIZE).repeat()
 
 model = tf.keras.models.Sequential()
 
-model.add(tf.keras.layers.LSTM(32, 
+model.add(tf.keras.layers.LSTM(16, 
                                input_shape=x_train_uni.shape[-2:]))
 
 model.add(tf.keras.layers.Dense(1))
 
 
 
-model.compile(optimizer=tf.keras.optimizers.RMSprop(), loss='mae')
+model.compile(optimizer=tf.keras.optimizers.Adam(lr=.1), loss='mae')
 
-EVALUATION_INTERVAL = TRAIN_SPLIT
-EPOCHS = 10
+EVALUATION_INTERVAL = TRAIN_SPLIT 
+EPOCHS = 20
 
 model_history = model.fit(train_univariate, epochs=EPOCHS,
                           steps_per_epoch=EVALUATION_INTERVAL,
                           validation_data=val_univariate, 
-                          validation_steps = 50,
+                          validation_steps = TEST_SPLIT,
                           shuffle=False)
 plot_train_history(model_history,
                    'Single Step Training and validation loss')
