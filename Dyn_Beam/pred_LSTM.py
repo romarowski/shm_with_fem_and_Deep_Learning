@@ -8,6 +8,12 @@ import tensorflow as tf
 import numpy as np
 import ipdb 
 import os
+from keras import backend as K
+
+def coeff_determination(y_true, y_pred):
+    SS_res =  K.sum(K.square( y_true-y_pred ))
+    SS_tot = K.sum(K.square( y_true - K.mean(y_true) ) )
+    return ( 1 - SS_res/(SS_tot + K.epsilon()) )
 
 
 dataset = np.loadtxt('Simulation3.txt')
@@ -38,7 +44,7 @@ x_val_uni, y_val_uni = univariate_data(dataset, TRAIN_SPLIT, None,
 
 tf.random.set_seed(13)
 
-BATCH_SIZE = TRAIN_SPLIT
+BATCH_SIZE = 256
 BUFFER_SIZE = 9600
 
 train_univariate = tf.data.Dataset.from_tensor_slices((x_train_uni, y_train_uni))
@@ -58,15 +64,16 @@ model.add(tf.keras.layers.Dense(1))
 
 
 
-model.compile(optimizer=tf.keras.optimizers.Adam(lr=.1), loss='mae')
+model.compile(optimizer=tf.keras.optimizers.Adam(),
+              loss='mae',
+              metrics=[coeff_determination])
 
-EVALUATION_INTERVAL = TRAIN_SPLIT 
+EVALUATION_INTERVAL = 200 
 EPOCHS = 20
 
 model_history = model.fit(train_univariate, epochs=EPOCHS,
                           steps_per_epoch=EVALUATION_INTERVAL,
                           validation_data=val_univariate, 
-                          validation_steps = TEST_SPLIT,
-                          shuffle=False)
+                          validation_steps = 50)
 plot_train_history(model_history,
                    'Single Step Training and validation loss')
