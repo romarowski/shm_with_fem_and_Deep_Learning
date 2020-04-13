@@ -2,6 +2,7 @@ from keras import optimizers
 from functions_for_Keras import *
 from keras.models import Sequential
 from keras import layers
+from keras.callbacks import ReduceLROnPlateau
 from keras.optimizers import RMSprop, Adam
 from matplotlib import pyplot as plt
 import tensorflow as tf
@@ -70,10 +71,15 @@ model.compile(optimizer=tf.keras.optimizers.Adam(),
 
 EVALUATION_INTERVAL = 200 
 EPOCHS = 20
+reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', 
+                                                  factor=0.2,
+                                                  patience=5, 
+                                                  min_lr=0.001)
 
 model_history = model.fit(train_univariate, epochs=EPOCHS,
                           steps_per_epoch=EVALUATION_INTERVAL,
                           validation_data=val_univariate, 
-                          validation_steps = 50)
+                          validation_steps = 50,
+                          callbacks=[reduce_lr])
 plot_train_history(model_history,
                    'Single Step Training and validation loss')
