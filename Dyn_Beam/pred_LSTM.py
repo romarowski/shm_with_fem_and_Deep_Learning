@@ -70,7 +70,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(),
               metrics=[coeff_determination])
 
 EVALUATION_INTERVAL = 200 
-EPOCHS = 20
+EPOCHS = 50
 reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', 
                                                   factor=0.2,
                                                   patience=5, 

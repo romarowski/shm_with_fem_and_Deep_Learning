@@ -7,9 +7,9 @@ def stiffnes(n_elem):
 
 
     fixed_dofs = [0, 1, -1, -2]
-    E  =  1
-    Iz =  1
-    L  =  1 / n_elem
+    E  =  1 #Pa
+    Iz =  1 #m^4
+    L  =  1 / n_elem #m
 
     k = np.array([[12 * E * Iz / L ** 3, 6 * E * Iz / L ** 2,\
                   -12 * E * Iz / L ** 3, 6 * E * Iz / L ** 2],
@@ -210,14 +210,14 @@ def mass_matrix(n_elem):
     #import matplotlib.plot as plt
 
     fixed_dofs = [1, 0, -1, -2] #assuming clamped-clamped
-    rho = 1
-    A   = 1
-    L   = 1
+    rho = 1 #kg/m^3
+    A   = 1 #m^2
+    L   = 1 #m
     Le = L / n_elem
-    mass  = rho * A * Le
+    mass  = rho * A * Le #kg
     #local mass matrix
-    m = mass / 420 * np.array([[156, 22 * Le,54, -13 * Le], 
-                               [22, 4 * Le ** 2, 13 * Le, -3 * Le ** 2], 
+    m = mass / 420 * np.array([[156, 22 * Le, 54, -13 * Le], 
+                               [22 * Le, 4 * Le ** 2, 13 * Le, -3 * Le ** 2], 
                                [54, 13  * Le, 156, -22 * Le],
                                [-13 * Le, -3 * Le ** 2, -22 * Le, 4 * Le ** 2]])
     dof_node = 2

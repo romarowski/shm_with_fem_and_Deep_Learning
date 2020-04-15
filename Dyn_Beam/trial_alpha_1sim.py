@@ -18,7 +18,6 @@ C = alpha * K + beta * M #Rayleigh proportional damping
 t_sim = 3600 
 timestep = .01
 
-#n_sim = 5000
 
 loc_s = 24 #this should be improved! recover the displacement at dof 24 
 data = np.zeros((int(np.ceil(t_sim/timestep) + 1), 2))
@@ -26,15 +25,15 @@ data = np.zeros((int(np.ceil(t_sim/timestep) + 1), 2))
 
 displ, vel, acel = advance(t_sim, timestep, n_elem, M, C, K)
 stresses = stress_recovery(displ, n_elem)
-#ipdb.set_trace()
+
 max_stress_each_timestep = np.amax(stresses, axis = 0)
-acel_at_s = acel[loc_s, :]
-data[:, 0] = acel_at_s
+displ_at_sensor = displ[loc_s, :]
+data[:, 0] = displ_at_s
 data[:, 1] = max_stress_each_timestep
 
 #generating text file 
 
-with open('Simulation4_acel.txt', 'w') as outfile:
+with open('./simulations/Simulation5.txt', 'w') as outfile:
     np.savetxt(outfile, data, fmt='%-7.2e')
         
 
