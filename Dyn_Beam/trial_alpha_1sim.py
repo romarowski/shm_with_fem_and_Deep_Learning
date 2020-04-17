@@ -28,7 +28,7 @@ stresses = stress_recovery(displ, n_elem)
 
 max_stress_each_timestep = np.amax(stresses, axis = 0)
 displ_at_sensor = displ[loc_s, :]
-data[:, 0] = displ_at_s
+data[:, 0] = displ_at_sensor
 data[:, 1] = max_stress_each_timestep
 
 #generating text file 

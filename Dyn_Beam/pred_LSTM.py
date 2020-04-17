@@ -17,7 +17,7 @@ def coeff_determination(y_true, y_pred):
     return ( 1 - SS_res/(SS_tot + K.epsilon()) )
 
 
-dataset = np.loadtxt('Simulation3.txt')
+dataset = np.loadtxt('./simulations/Simulation5.txt')
 
 
 # 1st normalize the data
