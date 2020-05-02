@@ -63,7 +63,7 @@ model.add(tf.keras.layers.LSTM(16,
 
 model.add(tf.keras.layers.Dense(1))
 
-
+model.summary()
 
 model.compile(optimizer=tf.keras.optimizers.Adam(),
               loss='mae',
