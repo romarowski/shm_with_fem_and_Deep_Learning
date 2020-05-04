@@ -9,7 +9,7 @@ def stiffnes(n_elem):
     #np.set_printoptions(threshold=sys.maxsize)
     #import matplotlib.plot as plt
 
-    fixed_dofs = [1, 0, -2, -1]
+    fixed_dofs = [0, -2] #simply supported beam
     E  =  1
     Iz =  1
     L  =  1 / n_elem
@@ -55,7 +55,7 @@ def nodal_load(load, n_elem):
                        -q * L / 2,  q * L ** 2 / 12])
     
    
-    fixed_dofs = [1, 0, -2, -1]    
+    fixed_dofs = [0, -2]    
                        
     f = np.zeros([tot_dofs])                   
                        
@@ -93,8 +93,8 @@ def stress_recovery(displ, n_elem):
 
     L = 1 / n_elem
 
-    B_0 = np.array([-6 / L ** 2, - 4 / L, 6 / L ** 2, - 2 / L]) #stress-deformation vector
-    B_1 = B_0 + np.array([12 / L ** 3, 6 / L ** 2, - 12 / L ** 3, 6 / L ** 2])
+    #B_0 = np.array([-6 / L ** 2, - 4 / L, 6 / L ** 2, - 2 / L]) #stress-deformation vector
+    #B_1 = B_0 + np.array([12 / L ** 3, 6 / L ** 2, - 12 / L ** 3, 6 / L ** 2])
 
     B_x = lambda x: np.array([- 6 / L ** 2 + 12 * x / L ** 3, \
                               - 4 / L      +  6 * x / L ** 2, \
@@ -104,7 +104,7 @@ def stress_recovery(displ, n_elem):
     stress_elem = np.zeros([n_elem])
 
 
-    displ = np.concatenate(([0, 0], displ, [0, 0]))
+    displ = np.concatenate(([0], displ[:-1], [0], [displ[-1]])) #simply-supported
 
     for elem in range(n_elem):
        # stress_elem[elem, 0] = - B_0.transpose() @ displ[2*elem:2*elem+4]

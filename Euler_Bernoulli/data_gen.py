@@ -1,6 +1,6 @@
 def simulation(n_elem):    
     
-    from Euler_Bernoulli import stress_recovery, random_load_generator, stiffnes, stiff_2nd_order 
+    from Euler_Bernoulli import stress_recovery, random_load_generator, stiffnes 
 
     from scipy import linalg
 

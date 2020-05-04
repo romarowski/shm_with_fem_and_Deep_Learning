@@ -12,9 +12,9 @@ import os
 from keras import backend as K
 
 def coeff_determination(y_true, y_pred):
-    SS_res =  K.sum(K.square( y_true-y_pred ))
-    SS_tot = K.sum(K.square( y_true - K.mean(y_true) ) )
-    return ( 1 - SS_res/(SS_tot + K.epsilon()) )
+    SS_res =  K.sum(K.square(y_true - y_pred))
+    SS_tot = K.sum(K.square(y_true - K.mean(y_true)))
+    return ( 1 - SS_res/(SS_tot + K.epsilon()))
 
 
 dataset = np.loadtxt('./simulations/Simulation5.txt')
@@ -24,7 +24,7 @@ dataset = np.loadtxt('./simulations/Simulation5.txt')
 
 nbr_tsteps = np.size(dataset, 0)
 
-TRAIN_SPLIT = int(.8 * nbr_tsteps)
+TRAIN_SPLIT = int(.001 * nbr_tsteps)
 TEST_SPLIT = int(nbr_tsteps - TRAIN_SPLIT)
 #nbr_val   = int(.9 * nbr_tsteps)
 

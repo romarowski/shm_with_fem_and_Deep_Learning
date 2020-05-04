@@ -18,7 +18,7 @@ reg = linear_model.LinearRegression()
 
 reg.fit(xtrain, ytrain)
 
-data2 = simulation(21)
+data2, K = simulation(21)
 
 xpredict = data2[:, 0]
 xpredict = xpredict[:, np.newaxis]
