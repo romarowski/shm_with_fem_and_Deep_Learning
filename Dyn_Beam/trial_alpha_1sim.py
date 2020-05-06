@@ -20,20 +20,26 @@ timestep = .01
 
 
 loc_s = 24 #this should be improved! recover the displacement at dof 24 
-data = np.zeros((int(np.ceil(t_sim/timestep) + 1), 2))
+data = np.zeros((int(np.ceil(t_sim/timestep) + 1), 10))
 
 
 displ, vel, acel = advance(t_sim, timestep, n_elem, M, C, K)
 stresses = stress_recovery(displ, n_elem)
 
+
+node_loc = np.array([1, 3, 5, 7, 10, 12, 14, 16, 18])
+
+loc_sg = node_loc * 2 - 2
+
 max_stress_each_timestep = np.amax(stresses, axis = 0)
-displ_at_sensor = displ[loc_s, :]
-data[:, 0] = displ_at_sensor
-data[:, 1] = max_stress_each_timestep
+
+displ_at_sensor = displ[loc_sg, :]
+data[:, 0:-1] = displ_at_sensor.transpose()
+data[:, -1] = max_stress_each_timestep
 
 #generating text file 
 
-with open('./simulations/Simulation5.txt', 'w') as outfile:
+with open('./simulations/Simulation6.txt', 'w') as outfile:
     np.savetxt(outfile, data, fmt='%-7.2e')
         
 

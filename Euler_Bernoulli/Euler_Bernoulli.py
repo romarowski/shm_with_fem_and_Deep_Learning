@@ -109,7 +109,7 @@ def stress_recovery(displ, n_elem):
     for elem in range(n_elem):
        # stress_elem[elem, 0] = - B_0.transpose() @ displ[2*elem:2*elem+4]
        # stress_elem[elem, 1] = - B_1.transpose() @ displ[2*elem:2*elem+4]
-       stress_elem[elem] =  B_x(L / 2) @ displ[2*elem:2*elem+4]
+       stress_elem[elem] = - B_x(L / 2) @ displ[2*elem:2*elem+4]
 
 
     return stress_elem
