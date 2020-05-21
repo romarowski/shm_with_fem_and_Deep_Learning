@@ -17,14 +17,14 @@ def coeff_determination(y_true, y_pred):
     return ( 1 - SS_res/(SS_tot + K.epsilon()))
 
 
-dataset = np.loadtxt('./simulations/Simulation5.txt')
+dataset = np.loadtxt('./simulations/Simulation6.txt')
 
 
 # 1st normalize the data
 
 nbr_tsteps = np.size(dataset, 0)
 
-TRAIN_SPLIT = int(.001 * nbr_tsteps)
+TRAIN_SPLIT = int(.8 * nbr_tsteps)
 TEST_SPLIT = int(nbr_tsteps - TRAIN_SPLIT)
 #nbr_val   = int(.9 * nbr_tsteps)
 
@@ -36,10 +36,14 @@ dataset /= std
 univariate_past_history = 50 
 univariate_future_target = 0
 
-x_train_uni, y_train_uni = univariate_data(dataset, 0, TRAIN_SPLIT,
+loc_sg =8 #np.arange(8) #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
+
+x_train_uni, y_train_uni = univariate_data(dataset, loc_sg,
+                                           0, TRAIN_SPLIT,
                                            univariate_past_history,
                                            univariate_future_target)
-x_val_uni, y_val_uni = univariate_data(dataset, TRAIN_SPLIT, None,
+x_val_uni, y_val_uni = univariate_data(dataset, loc_sg,
+                                       TRAIN_SPLIT, None,
                                        univariate_past_history,
                                        univariate_future_target)
 

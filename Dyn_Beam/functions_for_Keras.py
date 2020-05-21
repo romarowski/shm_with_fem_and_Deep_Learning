@@ -52,7 +52,7 @@ def multivariate_data(dataset, target, start_index, end_index, history_size,
 
 
 
-def univariate_data(dataset, start_index, end_index, history_size, target_size):
+def univariate_data(dataset, loc, start_index, end_index, history_size, target_size):
   data = []
   labels = []
 
@@ -63,8 +63,8 @@ def univariate_data(dataset, start_index, end_index, history_size, target_size):
   for i in range(start_index, end_index):
     indices = range(i-history_size, i)
     # Reshape data from (history_size,) to (history_size, 1)
-    data.append(np.reshape(dataset[indices, 0], (history_size, 1)))
-    labels.append(dataset[i+target_size, 1])
+    data.append(np.reshape(dataset[indices, loc], (history_size, 1)))
+    labels.append(dataset[i+target_size, -1])
   return np.array(data), np.array(labels)
 
 
