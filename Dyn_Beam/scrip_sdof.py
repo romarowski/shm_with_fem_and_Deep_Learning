@@ -14,7 +14,7 @@ K=1
 M=1
 
 ksi = C  / 2 / (K * M) ** .5
-w = K/M
+w = (K/M)**.5
 wd = w * (1-ksi**2)**.5
 print(ksi)
 d, v, a = advance(t_sim, timestep, n_elem, M, C, K)

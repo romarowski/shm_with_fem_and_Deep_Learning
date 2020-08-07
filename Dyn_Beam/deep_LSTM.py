@@ -1,3 +1,4 @@
+
 from keras import optimizers
 from functions_for_Keras import *
 from keras.models import Sequential
@@ -36,11 +37,7 @@ dataset /= std
 univariate_past_history = 50 
 univariate_future_target = 0
 
-<<<<<<< HEAD
-loc_sg = 8 #np.arange(8) #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
-=======
-loc_sg = [3, 5] #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
->>>>>>> 4c9f30a968c7c14e0ef7ce1927f54f7cdc801021
+loc_sg = 4 #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
 
 x_train_uni, y_train_uni = univariate_data(dataset, loc_sg,
                                            0, TRAIN_SPLIT,
@@ -55,7 +52,7 @@ x_val_uni, y_val_uni = univariate_data(dataset, loc_sg,
 tf.random.set_seed(13)
 
 BATCH_SIZE = 256
-BUFFER_SIZE = 9600
+BUFFER_SIZE = 10000
 
 train_univariate = tf.data.Dataset.from_tensor_slices((x_train_uni, y_train_uni))
 train_univariate = train_univariate.cache().shuffle(BUFFER_SIZE).batch(BATCH_SIZE).repeat()
@@ -67,9 +64,10 @@ val_univariate = val_univariate.batch(BATCH_SIZE).repeat()
 
 model = tf.keras.models.Sequential()
 
-model.add(tf.keras.layers.LSTM(32, 
+model.add(tf.keras.layers.LSTM(16, return_sequences=True, 
                                input_shape=x_train_uni.shape[-2:]))
 
+model.add(tf.keras.layers.LSTM(8))
 model.add(tf.keras.layers.Dense(1))
 
 model.summary()
@@ -78,17 +76,17 @@ model.compile(optimizer=tf.keras.optimizers.Adam(),
               loss='mae',
               metrics=[coeff_determination])
 
-EVALUATION_INTERVAL = 200 
-EPOCHS = 10 
-reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', 
-                                                  factor=0.2,
-                                                  patience=5, 
-                                                  min_lr=0.001)
-
+EVALUATION_INTERVAL = 200
+EPOCHS = 100
+#reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', 
+#                                                  factor=0.2,
+#                                                  patience=5, 
+#                                                  min_lr=0.001)
+#
 model_history = model.fit(train_univariate, epochs=EPOCHS,
                           steps_per_epoch=EVALUATION_INTERVAL,
                           validation_data=val_univariate, 
-                          validation_steps = 50,
-                          callbacks=[reduce_lr])
+                          validation_steps = 50)#,
+                          #callbacks=[reduce_lr])
 plot_train_history(model_history,
                    'Single Step Training and validation loss')

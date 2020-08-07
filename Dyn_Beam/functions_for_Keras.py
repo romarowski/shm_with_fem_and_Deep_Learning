@@ -63,7 +63,9 @@ def univariate_data(dataset, loc, start_index, end_index, history_size, target_s
   for i in range(start_index, end_index):
     indices = range(i-history_size, i)
     # Reshape data from (history_size,) to (history_size, 1)
-    data.append(np.reshape(dataset[indices, loc], (history_size, 1)))
+    #data.append(np.reshape(dataset[indices, loc], (history_size, 1)))
+    #ipdb.set_trace()
+    data.append(dataset[np.ix_(indices, loc)])
     labels.append(dataset[i+target_size, -1])
   return np.array(data), np.array(labels)
 
