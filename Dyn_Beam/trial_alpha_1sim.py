@@ -31,7 +31,7 @@ node_loc = np.array([1, 3, 5, 7, 10, 12, 14, 16, 18])
 
 loc_sg = node_loc * 2 - 2
 
-max_stress_each_timestep = np.amax(stresses, axis = 0)
+max_stress_each_timestep = np.amax(abs(stresses), axis = 0)
 
 displ_at_sensor = displ[loc_sg, :]
 data[:, 0:-1] = displ_at_sensor.transpose()
@@ -39,7 +39,7 @@ data[:, -1] = max_stress_each_timestep
 
 #generating text file 
 
-with open('./simulations/Simulation6.txt', 'w') as outfile:
+with open('./simulations/Simulation7.txt', 'w') as outfile:
     np.savetxt(outfile, data, fmt='%-7.2e')
         
 
