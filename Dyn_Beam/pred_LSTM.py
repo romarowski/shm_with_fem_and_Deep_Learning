@@ -36,7 +36,11 @@ dataset /= std
 univariate_past_history = 50 
 univariate_future_target = 0
 
+<<<<<<< HEAD
+loc_sg = 8 #np.arange(8) #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
+=======
 loc_sg = [3, 5] #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
+>>>>>>> 4c9f30a968c7c14e0ef7ce1927f54f7cdc801021
 
 x_train_uni, y_train_uni = univariate_data(dataset, loc_sg,
                                            0, TRAIN_SPLIT,
@@ -75,7 +79,7 @@ model.compile(optimizer=tf.keras.optimizers.Adam(),
               metrics=[coeff_determination])
 
 EVALUATION_INTERVAL = 200 
-EPOCHS = 50
+EPOCHS = 10 
 reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', 
                                                   factor=0.2,
                                                   patience=5, 
