@@ -80,22 +80,30 @@ def moment_recovery(displ, n_elem, L):
     stress_elem = np.zeros([n_elem, np.size(timesteps)])
 
     for time in timesteps:
-        displ_t = np.concatenate(([0, 0], displ[:, time])) #Cantilever!
+        #displ_t = np.concatenate(([0, 0], displ[:, time])) #Cantilever!
+        displ_t = displ[:, time]
         for elem in range(n_elem):
            stress_elem[elem, time] = - B_x(L / 2) @ displ_t[2*elem:2*elem+4]
 
     return stress_elem
 
 
-def node(x, n_elem):
+def node_mapping(x, n_elem):
     #Returns the node for a given x in [0, 1]
+    import numpy as np
+    import pdb
     
     n_nod = n_elem + 1
+    dof_per_node = 2
+    tot_dofs = dof_per_node * n_nod
     
     x_axis = np.linspace(0, 1, n_nod)
     
-    dof_per_node = 
+    node_nbr = np.abs(x_axis - x) < 1e-4
     
     
+    grouped = np.array(list(zip(*[iter(range(tot_dofs))] * 2)))  #pairs the dof belonging to each node. i.e. [(0,1), (2,3), ...]
+    
+    return grouped[node_nbr]
     
 
