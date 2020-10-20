@@ -5,7 +5,7 @@ import numpy as np
 
 n_elem = 21
 rho = A = L = Iz = E = 1
-fixed_dofs = [0, 1, -2, -1]
+fixed_dofs = [0, 1]
 
 
 K = stiffness(n_elem, E, Iz, L, fixed_dofs)
@@ -29,13 +29,13 @@ node_loc = np.array([1, 3, 5, 7, 10, 12, 14, 16, 18])
 #Equaly spaced sensors. 
 loc_sg = node_loc * 2 - 2
 
-max_moment_each_timestep = np.amax(moments, axis = 0) 
+max_moment_each_timestep = np.amax(abs(moments), axis = 0) 
 
 displ_at_sensor = displ[loc_sg, :]
 data[:, 0:-1] = displ_at_sensor.transpose()
 data[:, -1] = max_moment_each_timestep
 
 #Generate text file 
-with open('./simulations/simul1.txt', 'w') as outfile:
+with open('./simulations/sine_simul1.txt', 'w') as outfile:
     np.savetxt(outfile, data, fmt='%-7.2e')
         

@@ -10,8 +10,6 @@ import numpy as np
 import ipdb 
 import os
 from keras import backend as K
-from random import gauss
-
 
 import datetime 
 
@@ -21,12 +19,11 @@ def coeff_determination(y_true, y_pred):
     return ( 1 - SS_res/(SS_tot + K.epsilon()))
 
 
-dataset = np.loadtxt('./simulations/s3_cantilever_Tip_sine_load.txt')
-#dataset2 = np.loadtxt('./simulations/simul1.txt')
+dataset = np.loadtxt('./simulations/sine_simul1.txt')
+dataset2 = np.loadtxt('./simulations/simul1.txt')
 
-    
-#dataset += gauss(0,1)
-#datase = np.append(dataset, dataset2, axis=0)
+
+datase = np.append(dataset, dataset2, axis=0)
 
 # 1st normalize the data
 
@@ -40,11 +37,6 @@ mean = dataset[:TRAIN_SPLIT].mean(axis=0)
 dataset -= mean
 std = dataset[:TRAIN_SPLIT].std(axis=0)
 dataset /= std
-
-SNR = 10
-
-noise = np.random.normal(0, np.mean(std)/SNR, (np.shape(dataset)[0], np.shape(dataset)[1]-1))
-dataset[:,:-1] += noise
 
 univariate_past_history = 50 
 univariate_future_target = 0
@@ -129,18 +121,3 @@ model_history = model.fit(train_univariate, epochs=EPOCHS,
 
 #plot_train_history(model_history,
  #                  'Single Step Training and validation loss')
-    
-#--------------------------------------------------------------
-##PLOTTING RESULTS
-
-y_pred = model.predict(x_val_uni)
-
-# Plot and compare the two signals.
-plt.plot(y_val_uni[:1000], label='True')
-plt.plot(y_pred[0:1000], label='Pred')
-        
-# Plot labels etc.
-plt.legend()
-plt.show()
-
-  

@@ -34,7 +34,8 @@ def advance(t_sim, timestep, n_elem, BCs, M, C, K):
     c2 = C + K * h * (1 - alpha_f)
 
     
-    F = uniform_load_randomized(n_elem, BCs, times, hold = 1) 
+    #F = uniform_load_randomized(n_elem, BCs, times, hold = 1) 
+    F = sine_load(n_elem, times)
     #Gives a random vector of loads for a FE of n_elem elements, at each 
     #timestesp.
     

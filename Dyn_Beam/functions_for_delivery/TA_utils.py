@@ -8,7 +8,8 @@ def advance(t_sim, timestep, n_elem,  M, C, K):
     import ipdb
 
     
-    fixed_dofs = 4 #Corresponding to fixed-fixed beam.
+    #fixed_dofs = 4 #Corresponding to fixed-fixed beam.
+    fixed_dofs = 2 #Cantilever beam
     dof_per_node = 2
     dofs = (n_elem + 1) * dof_per_node - fixed_dofs #Total nbr of DOFs
         
@@ -30,7 +31,7 @@ def advance(t_sim, timestep, n_elem,  M, C, K):
     
     c2 = C + K * h * (1 - alpha_f)
 
-    F = random_loads_vector(n_elem, times) 
+    F = sine_load(n_elem, times) 
     #Gives a random vector of loads for a FE of n_elem elements, at each 
     #timestesp.
     
@@ -45,8 +46,9 @@ def advance(t_sim, timestep, n_elem,  M, C, K):
     for i in np.arange(0, np.size(times) - 1):
         #-1 because np.arange works like [a, b) i.e. b-1 is the last included
         #Time advancing. 
-
-        rhs = F[:, i]  - c1 @ a[:, i] - c2 @ v[:, i] - K @ d[:, i] 
+        
+        load = (1 - alpha_f) * F[:, i+1] + alpha_f * F[:, i] 
+        rhs = load  - c1 @ a[:, i] - c2 @ v[:, i] - K @ d[:, i] 
        
         a[:, i+1] = LA.solve(lhs, rhs)
 
@@ -82,6 +84,19 @@ def random_loads_vector(n_elem, times):
 
 
 
+def sine_load(n_elem, times):
+    #Returns a tip sine-load for a cantilevered beam
+    import numpy as np
 
+    fixed_dofs = 2
+    dof_per_node = 2
+    dofs = (n_elem + 1) * dof_per_node - fixed_dofs
 
+    nbr_timesteps = np.size(times)
+
+    loads = np.zeros([dofs, nbr_timesteps])
+
+    loads[-2, :] = np.sin(times)
+
+    return loads
 

@@ -19,7 +19,7 @@ t_sim = 3600
 timestep = .01
 
 
-loc_s = 24 #this should be improved! recover the displacement at dof 24 
+#loc_s = 24 #this should be improved! recover the displacement at dof 24 
 data = np.zeros((int(np.ceil(t_sim/timestep) + 1), 10))
 
 
