@@ -12,7 +12,7 @@ def stiffnes(n_elem):
     fixed_dofs = [1, 0, -2, -1]
     E  =  1
     Iz =  1
-    L  =  1
+    L  =  1/n_elem
 
     k = np.array([[12 * E * Iz / L ** 3, 6 * E * Iz / L ** 2,\
                   -12 * E * Iz / L ** 3, 6 * E * Iz / L ** 2],

@@ -9,7 +9,7 @@ def stiffness(n_elem, E, Iz, L, fixed_dofs):
 
     L = L / n_elem #Unioform discretization, size of each element is total 
                    # length divided by number of elements.
-    
+    L=1
     
     k = np.array([[12 * E * Iz / L ** 3, 6 * E * Iz / L ** 2,\
                   -12 * E * Iz / L ** 3, 6 * E * Iz / L ** 2],

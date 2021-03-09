@@ -11,6 +11,7 @@ import ipdb
 import os
 from keras import backend as K
 
+
 import datetime 
 
 def coeff_determination(y_true, y_pred):
@@ -41,7 +42,7 @@ dataset /= std
 univariate_past_history = 50 
 univariate_future_target = 0
 
-loc_sg = [5] #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
+loc_sg = [4] #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
 
 x_train_uni, y_train_uni = prepare_data(dataset, loc_sg,
                                            0, TRAIN_SPLIT,
@@ -69,7 +70,7 @@ val_univariate = val_univariate.batch(BATCH_SIZE).repeat()
 
 model = tf.keras.models.Sequential()
 
-model.add(tf.keras.layers.LSTM(64,  
+model.add(tf.keras.layers.LSTM(2,  
                                input_shape=x_train_uni.shape[-2:]))
 
 #model.add(tf.keras.layers.LSTM(32, return_sequences = True))
@@ -82,7 +83,10 @@ model.summary()
 
 model.compile(optimizer=tf.keras.optimizers.Adam(),
               loss='mse',
-              metrics=[coeff_determination])
+              metrics=[coeff_determination,
+                      tf.keras.metrics.MeanSquaredError(),
+                      tf.keras.metrics.RootMeanSquaredError(),
+                      tf.keras.metrics.MeanAbsoluteError()])
 
 EVALUATION_INTERVAL = 300 
 EPOCHS = 30

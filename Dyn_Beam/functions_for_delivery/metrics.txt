@@ -1,0 +1,26 @@
+x=0.5, random loads
+loss: 0.1681 - coeff_determination: 0.8298 - mean_squared_error: 0.1681 - root_mean_squared_error: 0.4100 - mean_absolute_error: 0.3237 - val_loss: 0.1714 - val_coeff_determination: 0.7989 - val_mean_squared_error: 0.1714 - val_root_mean_squared_error: 0.4140 - val_mean_absolute_error: 0.3277
+
+x =0.2 & 0.8, random loads
+loss: 0.0668 - coeff_determination: 0.9323 - mean_squared_error: 0.0668 - root_mean_squared_error: 0.2585 - mean_absolute_error: 0.2019 - val_loss: 0.0693 - val_coeff_determination: 0.9179 - val_mean_squared_error: 0.0693 - val_root_mean_squared_error: 0.2633 - val_mean_absolute_error: 0.2080
+
+x=0.5, sine tip load, 64 units
+loss: 9.1173e-05 - coeff_determination: 0.9999 - mean_squared_error: 9.1173e-05 - root_mean_squared_error: 0.0095 - mean_absolute_error: 0.0070 - val_loss: 2.0956e-04 - val_coeff_determination: 0.9998 - val_mean_squared_error: 2.0956e-04 - val_root_mean_squared_error: 0.0145 - val_mean_absolute_error: 0.0127
+
+
+x=0.5 sin tip load, 2 units, both fixed
+
+loss: 0.0013 - coeff_determination: 0.9987 - mean_squared_error: 0.0013 - root_mean_squared_error: 0.0366 - mean_absolute_error: 0.0250 - val_loss: 0.0013 - val_coeff_determination: 0.9987 - val_mean_squared_error: 0.0013 - val_root_mean_squared_error: 0.0357 - val_mean_absolute_error: 0.0241
+
+
+x=0.5, sin tip load, 2 units, cantilever 
+ loss: 0.0015 - coeff_determination: 0.9985 - mean_squared_error: 0.0015 - root_mean_squared_error: 0.0388 - mean_absolute_error: 0.0256 - val_loss: 0.0014 - val_coeff_determination: 0.9986 - val_mean_squared_error: 0.0014 - val_root_mean_squared_error: 0.0369 - val_mean_absolute_error: 0.0243
+ 
+ x=0.5, sintip load, 2 units, cantilever, SNR=2
+ loss: 0.0086 - coeff_determination: 0.9913 - mean_squared_error: 0.0086 - root_mean_squared_error: 0.0927 - mean_absolute_error: 0.0719 - val_loss: 0.0076 - val_coeff_determination: 0.9917 - val_mean_squared_error: 0.0076 - val_root_mean_squared_error: 0.0874 - val_mean_absolute_error: 0.0679
+ 
+ 
+ 
+x=0.5, sintip load, 2 units, cantilever, SNR=10
+
+0.9916 - mean_squared_error: 0.0083 - root_mean_squared_error: 0.0910 - mean_absolute_error: 0.0708 - val_loss: 0.0085 - val_coeff_determination: 0.9906 - val_mean_squared_error: 0.0085 - val_root_mean_squared_error: 0.0920 - val_mean_absolute_error: 0.0719

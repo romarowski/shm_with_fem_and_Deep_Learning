@@ -3,7 +3,7 @@
 import numpy as np
 import matplotlib as mpl
 from sklearn import linear_model 
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
 from data_gen import simulation
 import matplotlib.pyplot as plt
 
@@ -17,6 +17,11 @@ data  = simulation(n_elem, node_loc, E, Iz, L, fixed_dofs, n_sim) #Train set.
 data2 = simulation(n_elem, node_loc, E, Iz, L, fixed_dofs, n_sim) #Test set. 
 
 r2scores = np.zeros(9)
+mses = np.zeros(9)
+maes = np.zeros(9)
+rmses = np.zeros(9)
+
+
 
 for i in range(9):
     xtrain = data[:, i] #Train on the data of sensor in position i.
@@ -39,7 +44,9 @@ for i in range(9):
     ytest = ytest[:, np.newaxis] #Real moment.
 
     r2scores[i] = r2_score(ytest, ypredict) #Compare prediction with real.
-
+    mses[i] = mean_squared_error(ytest, ypredict)
+    maes[i] = mean_absolute_error(ytest, ypredict)
+    rmses[i] = mean_squared_error(ytest, ypredict, squared=False)
 
 #Plot
 plt.stem(np.linspace(0.1, 0.9, 9), r2scores)
