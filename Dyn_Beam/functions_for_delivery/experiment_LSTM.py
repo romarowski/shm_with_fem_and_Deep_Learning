@@ -20,7 +20,7 @@ def coeff_determination(y_true, y_pred):
     return ( 1 - SS_res/(SS_tot + K.epsilon()))
 
 
-dataset = np.loadtxt('./simulations/sine_simul1.txt')
+dataset = np.loadtxt('./simulations/random_simul2.txt')
 dataset2 = np.loadtxt('./simulations/simul1.txt')
 
 
@@ -42,7 +42,7 @@ dataset /= std
 univariate_past_history = 50 
 univariate_future_target = 0
 
-loc_sg = [4] #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
+loc_sg = [1, 7] #[0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9]
 
 x_train_uni, y_train_uni = prepare_data(dataset, loc_sg,
                                            0, TRAIN_SPLIT,
